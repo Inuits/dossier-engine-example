@@ -35,7 +35,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-
+    globals:
+        user_service: "@user_service"
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
@@ -85,3 +86,8 @@ braincrafted_bootstrap:
     less_filter: lessphp
     auto_configure:
         assetic: false
+demo:
+    users:
+        - 'pieter'
+        - 'tom'
+        - 'yannick'

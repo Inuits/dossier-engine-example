@@ -7,19 +7,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class DefaultController extends Controller
+/*
+ * @Route("/users")
+ */
+
+class UserController extends Controller
 {
 
     /**
-     * @Route("/", name="homepage")
+     * @Route("/switch/{user}")
      * @Template()
      */
-    public function indexAction(Request $request)
+    public function switchAction(Request $request, $user)
     {
 
-        $config = $this->container->getParameter('demo.config');
         $service = $this->container->get('user_service');
+        $user = $service->setUser($user);
 
-        return array();
+        $this->addFlash('notice',"Switched to user $user.");
+
+        return $this->redirectToRoute('homepage');
     }
+
 }
