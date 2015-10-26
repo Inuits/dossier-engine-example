@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Digipolis ACPaas Demo App{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets
+        '@DemoBundle/Resources/less/layout.less'
+        '%kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/less/form.less'
+        'bundles/bmatznerfontawesome/less/font-awesome.less'
+        filter='cssrewrite,lessphp,?yui_css' %}
+        <link href="{{ asset_url }}" rel="stylesheet">
+        {% endstylesheets %}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+<div class="container">
+
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Digipolis ACPaas Demo App</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Flows</a></li>
+                    <li><a href="#">tasks</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Switch user <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Pieter</a></li>
+                            <li><a href="#">Tom</a></li>
+                            <li><a href="#">Yannick</a></li>
+                            <li><a href="#">Johan</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+
+    {% block content %}No content added for this page.{% endblock %}
+
+</div>
+{% javascripts
+'%kernel.root_dir%/../vendor/components/jquery/jquery.min.js'
+'%kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.min.js'
+'%kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js'
+filter="?yui_js" %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+</body>
+</html>
