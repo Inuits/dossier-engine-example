@@ -23,27 +23,56 @@ class AcpaasApiService
         $this->client->setBaseUrl($this->config['client_url']);
     }
 
-    private function get($url, $params)
+    private function get($url, $queryParams = array())
     {
 
-        $request = $this->client->get($url . '?' . http_build_query($params));
+        $request = $this->client->get($url . '?' . http_build_query($queryParams));
         $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
         $response = $request->send();
 
         return $response->json();
     }
 
-    private function post($url, $params = array())
+    private function post($url, $queryParams = array(), $bodyParams = array())
     {
 
         try {
-            $request = $this->client->post($url, array(), $params);
+            $request = $this->client->post($url . '?' . http_build_query($queryParams), array(), $bodyParams);
             $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
             return $request->send()->json();
 
         } catch (RequestException $ex) {
-            die($ex->getResponse()->getBody());
+            throw new \Exception($ex->getResponse()->getBody());
         }
+
+    }
+
+    private function put($url, $queryParams = array(), $bodyParams = array())
+    {
+
+        try {
+            $request = $this->client->put($url . '?' . http_build_query($queryParams), array(), $bodyParams);
+            $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
+            return $request->send()->json();
+
+        } catch (RequestException $ex) {
+            throw new \Exception($ex->getResponse()->getBody());
+        }
+
+    }
+
+    private function delete($url, $queryParams = array())
+    {
+
+        try {
+            $request = $this->client->delete($url . '?' . http_build_query($queryParams));
+            $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
+            return $request->send()->json();
+
+        } catch (RequestException $ex) {
+            throw new \Exception($ex->getResponse()->getBody());
+        }
+
     }
 
     private function getAccessToken()
@@ -75,17 +104,99 @@ class AcpaasApiService
 
     }
 
-    public function postRecord($number)
+    public function postRecord($bodyParams)
     {
-
-        $params = array(
-            'number' => $number,
-        );
 
         $user = $this->userService->getUser();
 
-        return $this->post('/api/v1/entities/Record?user=' . $user, $params);
+        $queryParams = array(
+            'user' => $user,
+            'group' => 'general',
+        );
+
+        $record = $this->post('/api/v1/entities/Record', $queryParams, $bodyParams);
+
+        $bodyParams = array(
+            'resource' => 'group',
+            'operation' => 'view',
+            'name' => 'general',
+        );
+
+        $this->postEntityAcl($record['id'], $bodyParams);
+
+        $bodyParams = array(
+            'resource' => 'group',
+            'operation' => 'delete',
+            'name' => 'general',
+        );
+
+        $this->postEntityAcl($record['id'], $bodyParams);
+
+        $bodyParams = array(
+            'resource' => 'group',
+            'operation' => 'update',
+            'name' => 'general',
+        );
+
+        $this->postEntityAcl($record['id'], $bodyParams);
+
+        return $record;
 
     }
+
+    public function getRecords()
+    {
+        $user = $this->userService->getUser();
+
+        $queryParams = array(
+            'user' => $user,
+            'group' => 'general',
+            'type' => 'Record',
+        );
+
+        return $this->get('/api/v1/entities');
+    }
+
+    public function getEntity($id)
+    {
+        $user = $this->userService->getUser();
+
+        $queryParams = array(
+            'user' => $user,
+            'group' => 'general'
+        );
+
+        return $this->get('/api/v1/entities/' . $id, $queryParams);
+    }
+
+    public function putEntity($id, $bodyParams)
+    {
+        $user = $this->userService->getUser();
+
+        $queryParams = array(
+            'user' => $user,
+            'group' => 'general',
+        );
+
+        return $this->put('/api/v1/entities/' . $id, $queryParams, $bodyParams);
+    }
+
+    public function postEntityAcl($id, $bodyParams)
+    {
+        $this->post('/api/v1/entities/' . $id . '/acl', array(), $bodyParams);
+    }
+
+    public function deleteEntity($id)
+    {
+        $user = $this->userService->getUser();
+
+        $queryParams = array(
+            'user' => $user,
+            'group' => 'general',
+        );
+
+        return $this->delete('/api/v1/entities/' . $id, $queryParams);
+    }
+
 
 }

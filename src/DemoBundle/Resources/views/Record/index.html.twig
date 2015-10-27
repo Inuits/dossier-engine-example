@@ -1,0 +1,43 @@
+{% extends 'DemoBundle::layout.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Number</th>
+                    <th>Created</th>
+                    <th>Modified</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for record in records %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('demo_record_detail', { id: record.id }) }}">
+                                {{ record.id }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ record.number }}
+                        </td>
+                        <td>
+                            {{ record.created }}
+                        </td>
+                        <td>
+                            {{ record.modified }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a class="btn btn-primary" href="{{ path('demo_record_create') }}">Create</a>
+        </div>
+    </div>
+{% endblock %}

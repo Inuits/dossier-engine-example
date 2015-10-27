@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /*
  * @Route("/users")
  */
-
 class UserController extends Controller
 {
 
