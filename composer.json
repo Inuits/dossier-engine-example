@@ -23,7 +23,8 @@
         "oyejorge/less.php": "v1.7.0.9",
         "twbs/bootstrap": "^3.3",
         "components/jquery": "^2.1",
-        "doctrine/doctrine-migrations-bundle": "^1.1"
+        "doctrine/doctrine-migrations-bundle": "^1.1",
+        "misd/guzzle-bundle": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

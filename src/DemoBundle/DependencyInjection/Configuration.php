@@ -19,6 +19,12 @@ class Configuration implements ConfigurationInterface
             ->prototype('scalar')
             ->end()
             ->end()
+            ->scalarNode('client_secret')
+            ->end()
+            ->scalarNode('client_url')
+            ->end()
+            ->scalarNode('public_id')
+            ->end()
             ->end();
 
         return $treeBuilder;

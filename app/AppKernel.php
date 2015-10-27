@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Bmatzner\FontAwesomeBundle\BmatznerFontAwesomeBundle(),
             new Braincrafted\Bundle\BootstrapBundle\BraincraftedBootstrapBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Misd\GuzzleBundle\MisdGuzzleBundle(),
 
             new DemoBundle\DemoBundle(),
         );

@@ -17,9 +17,6 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
 
-        $config = $this->container->getParameter('demo.config');
-        $service = $this->container->get('user_service');
-
         return array();
     }
 }

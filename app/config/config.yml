@@ -91,3 +91,6 @@ demo:
         - 'pieter'
         - 'tom'
         - 'yannick'
+    client_url: 'http://localhost:8000'
+    client_secret: '%client_secret%'
+    public_id: '%public_id%'
