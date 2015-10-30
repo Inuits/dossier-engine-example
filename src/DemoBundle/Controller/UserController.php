@@ -25,7 +25,7 @@ class UserController extends Controller
 
         $this->addFlash('notice',"Switched to user $user.");
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('demo_task_index');
     }
 
 }

@@ -6,4 +6,9 @@
             {{ form(form) }}
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <a class="btn btn-primary" href="{{ path('demo_task_completetask', {'id' : task.id}) }}">Complete task</a>
+        </div>
+    </div>
 {% endblock %}

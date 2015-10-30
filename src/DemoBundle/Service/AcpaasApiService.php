@@ -154,7 +154,7 @@ class AcpaasApiService
             'type' => 'Record',
         );
 
-        return $this->get('/api/v1/entities',$queryParams);
+        return $this->get('/api/v1/entities', $queryParams);
     }
 
     public function getEntity($id)
@@ -196,6 +196,23 @@ class AcpaasApiService
         );
 
         return $this->delete('/api/v1/entities/' . $id, $queryParams);
+    }
+
+    public function getMetadataSchemas()
+    {
+        $user = $this->userService->getUser();
+
+        $queryParams = array(
+            'user' => $user,
+            'group' => 'general'
+        );
+
+        return $this->get('/api/v1/metadataSchema', $queryParams);
+    }
+
+    public function getEntityMetadata($id)
+    {
+        return $this->get('/api/v1/entities/' . $id . '/metadata');
     }
 
 

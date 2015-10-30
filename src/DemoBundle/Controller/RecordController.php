@@ -36,6 +36,7 @@ class RecordController extends Controller
     {
 
         $service = $this->container->get('acpaas_api_service');
+        $config = $this->container->getParameter('demo.config');
 
         $record = $service->getEntity($id);
 
@@ -70,6 +71,10 @@ class RecordController extends Controller
 
         $builder->add('update', 'submit', array('label' => 'Update record'));
 
+        $metadata = $service->getEntityMetadata($record['id']);
+        $processInstanceId = $metadata[0]['value'];
+
+        $diagram = $config['activiti_url'].'activiti-rest/service/runtime/process-instances/'.  $processInstanceId . '/diagram';
 
         $form = $builder->getForm();
 
@@ -88,7 +93,7 @@ class RecordController extends Controller
         }
 
 
-        return array('form' => $form->createView(), 'record' => $record);
+        return array('form' => $form->createView(), 'record' => $record,'diagram' => $diagram);
 
     }
 
@@ -117,6 +122,7 @@ class RecordController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+
             $number = $form->get('number')->getData();
 
             $params = array(

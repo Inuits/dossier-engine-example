@@ -37,6 +37,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         user_service: "@user_service"
+    cache: false
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"

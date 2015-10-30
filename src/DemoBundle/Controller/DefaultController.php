@@ -17,6 +17,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
 
-        return array();
+        return $this->redirectToRoute('demo_task_index');
+
     }
 }

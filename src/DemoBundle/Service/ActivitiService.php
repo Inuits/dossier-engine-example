@@ -33,7 +33,7 @@ class ActivitiService
         $request->setAuth($this->config['activiti_user'], $this->config['activiti_password']);
         $response = $request->send();
 
-        return $response->json();
+        return $response;
     }
 
     private function post($url, $params)
@@ -63,24 +63,34 @@ class ActivitiService
         $request->setAuth($this->config['activiti_user'], $this->config['activiti_password']);
         $response = $request->send();
 
-        return $response->json();
+        return $response;
     }
 
 
     public function getTasks()
     {
-        return $this->get('/activiti-rest/service/runtime/tasks?assignee=' . $this->userService->getUser())['data'];
+        return $this->get('/activiti-rest/service/runtime/tasks?assignee=' . $this->userService->getUser())->json()['data'];
 
     }
 
     public function getTask($id)
     {
-        return $this->get('/activiti-rest/service/runtime/tasks/' . $id);
+        return $this->get('/activiti-rest/service/runtime/tasks/' . $id)->json();
     }
 
     public function putTask($id, $params)
     {
         return $this->put('/activiti-rest/service/runtime/tasks/' . $id, $params);
+    }
+
+    public function postCompleteTask($id)
+    {
+
+        $params = array(
+            'action' => 'complete'
+        );
+
+        return $this->post('/activiti-rest/service/runtime/tasks/' . $id, $params);
     }
 
 }

@@ -78,5 +78,21 @@ class TaskController extends Controller
         return array('form' => $form->createView(), 'task' => $task);
     }
 
+    /**
+     * @Route("/completeTask/{id}")
+     * @Template()
+     */
+    public function completeTaskAction(Request $request, $id)
+    {
+
+        $service = $this->container->get('service.activiti');
+
+        $service->postCompleteTask($id);
+
+        $this->addFlash('notice','task completed');
+
+        return $this->redirectToRoute('demo_task_index');
+    }
+
 
 }
