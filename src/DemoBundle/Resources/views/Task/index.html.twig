@@ -1,0 +1,38 @@
+{% extends 'DemoBundle::layout.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Create time</th>
+                    <th>Priority</th>
+                    <th>Process instanceId</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('demo_task_detail', { id: task.id }) }}">
+                                {{ task.name }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ task.createTime }}
+                        </td>
+                        <td>
+                            {{ task.priority }}
+                        </td>
+                        <td>
+                            {{ task.processInstanceId }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

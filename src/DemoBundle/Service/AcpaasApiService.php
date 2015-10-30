@@ -154,7 +154,7 @@ class AcpaasApiService
             'type' => 'Record',
         );
 
-        return $this->get('/api/v1/entities');
+        return $this->get('/api/v1/entities',$queryParams);
     }
 
     public function getEntity($id)

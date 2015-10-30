@@ -25,6 +25,12 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->scalarNode('public_id')
             ->end()
+            ->scalarNode('activiti_url')
+            ->end()
+            ->scalarNode('activiti_user')
+            ->end()
+            ->scalarNode('activiti_password')
+            ->end()
             ->end();
 
         return $treeBuilder;

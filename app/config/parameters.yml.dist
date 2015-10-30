@@ -21,3 +21,7 @@ parameters:
     client_url: http://localhost:8000
     client_secret: 25xkjyt2hg1wc48g0csc0c4s8c4kw000g4o040sc8s40sgswgg
     public_id: 59445532-7bf1-11e5-bb6e-28d244df9d68_2mhmdfrtueckgcsg808wooo8040o48o000wwkwckogw40k00s0
+
+    activiti_url: "http://localhost:8888/"
+    activiti_user: "rest"
+    activiti_password: "rest"
