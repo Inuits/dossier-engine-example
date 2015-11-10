@@ -26,15 +26,23 @@ class AcpaasApiService
     private function get($url, $queryParams = array())
     {
 
-        $request = $this->client->get($url . '?' . http_build_query($queryParams));
-        $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
-        $response = $request->send();
+        try {
+            $request = $this->client->get($url . '?' . http_build_query($queryParams));
+            $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
+            $response = $request->send();
 
-        return $response->json();
+            return $response->json();
+
+        } catch (RequestException $ex) {
+            throw new \Exception($ex->getResponse()->getBody());
+        }
+
+
     }
 
     private function post($url, $queryParams = array(), $bodyParams = array())
     {
+
 
         try {
             $request = $this->client->post($url . '?' . http_build_query($queryParams), array(), $bodyParams);
@@ -213,6 +221,39 @@ class AcpaasApiService
     public function getEntityMetadata($id)
     {
         return $this->get('/api/v1/entities/' . $id . '/metadata');
+    }
+
+    public function getTasks()
+    {
+        $queryParams['assignee'] = $this->userService->getUser();
+        return $this->get('/api/v1/activiti/runtime/tasks', $queryParams);
+
+    }
+
+    public function getTask($id)
+    {
+        return $this->get('/api/v1/activiti/runtime/tasks/' . $id);
+    }
+
+    public function putTask($id, $params)
+    {
+        return $this->put('/api/v1/activiti/runtime/tasks/' . $id, array(), $params);
+    }
+
+    public function postCompleteTask($id)
+    {
+
+        $params = array(
+            'action' => 'complete'
+        );
+
+        return $this->post('/api/v1/activiti/runtime/tasks/' . $id, array(), $params);
+    }
+
+    public function getDiagram($id)
+    {
+
+        return $this->get('/api/v1/activiti/runtime/process-instances/' . $id . '/diagram');
     }
 
 

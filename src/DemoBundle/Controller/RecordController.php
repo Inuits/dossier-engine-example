@@ -74,7 +74,7 @@ class RecordController extends Controller
         $metadata = $service->getEntityMetadata($record['id']);
         $processInstanceId = $metadata[0]['value'];
 
-        $diagram = $config['activiti_url'].'activiti-rest/service/runtime/process-instances/'.  $processInstanceId . '/diagram';
+        $diagramBase64 = $service->getDiagram($processInstanceId);
 
         $form = $builder->getForm();
 
@@ -93,7 +93,7 @@ class RecordController extends Controller
         }
 
 
-        return array('form' => $form->createView(), 'record' => $record,'diagram' => $diagram);
+        return array('form' => $form->createView(), 'record' => $record, 'diagram' => $diagramBase64);
 
     }
 

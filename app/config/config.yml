@@ -95,6 +95,3 @@ demo:
     client_url: '%client_url%'
     client_secret: '%client_secret%'
     public_id: '%public_id%'
-    activiti_url: "%activiti_url%"
-    activiti_user: "%activiti_user%"
-    activiti_password: "%activiti_password%"

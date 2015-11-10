@@ -22,8 +22,8 @@ class TaskController extends Controller
     public function indexAction(Request $request)
     {
 
-        $service = $this->container->get('service.activiti');
-        $tasks = $service->getTasks();
+        $service = $this->container->get('acpaas_api_service');
+        $tasks = $service->getTasks()['data'];
 
         return array('tasks' => $tasks);
     }
@@ -35,7 +35,7 @@ class TaskController extends Controller
     public function detailAction(Request $request, $id)
     {
 
-        $service = $this->container->get('service.activiti');
+        $service = $this->container->get('acpaas_api_service');
         $task = $service->getTask($id);
 
         $builder = $this->createFormBuilder($task);
@@ -68,7 +68,7 @@ class TaskController extends Controller
                 'priority' => $data['priority'],
             );
 
-            $service = $this->container->get('service.activiti');
+            $service = $this->container->get('acpaas_api_service');
             $service->putTask($data['id'], $params);
 
             return $this->redirectToRoute('demo_task_detail', array('id' => $data['id']));
@@ -85,11 +85,11 @@ class TaskController extends Controller
     public function completeTaskAction(Request $request, $id)
     {
 
-        $service = $this->container->get('service.activiti');
+        $service = $this->container->get('acpaas_api_service');
 
         $service->postCompleteTask($id);
 
-        $this->addFlash('notice','task completed');
+        $this->addFlash('notice', 'task completed');
 
         return $this->redirectToRoute('demo_task_index');
     }

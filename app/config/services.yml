@@ -10,6 +10,3 @@ services:
     acpaas_api_service:
         class: DemoBundle\Service\AcpaasApiService
         arguments: ["%demo.config%","@session","@guzzle.client","@user_service"]
-    service.activiti:
-        class: DemoBundle\Service\ActivitiService
-        arguments: ["%demo.config%","@guzzle.client","@user_service"]
