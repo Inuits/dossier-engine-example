@@ -162,7 +162,7 @@ class AcpaasApiService
             'type' => 'Record',
         );
 
-        return $this->get('/api/v1/entities', $queryParams);
+        return $this->get('/api/v1/entities', $queryParams)['results'];
     }
 
     public function getEntity($id)
@@ -215,7 +215,7 @@ class AcpaasApiService
             'group' => 'general'
         );
 
-        return $this->get('/api/v1/metadataSchema', $queryParams);
+        return $this->get('/api/v1/metadataSchema', $queryParams)['results'];
     }
 
     public function getEntityMetadata($id)
