@@ -21,7 +21,6 @@ class TaskController extends Controller
      */
     public function indexAction(Request $request)
     {
-
         $service = $this->container->get('acpaas_api_service');
         $tasks = $service->getTasks()['data'];
 

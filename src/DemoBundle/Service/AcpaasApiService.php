@@ -160,6 +160,7 @@ class AcpaasApiService
             'user' => $user,
             'group' => 'general',
             'type' => 'Record',
+            'limit' => 99,
         );
 
         return $this->get('/api/v1/entities', $queryParams)['results'];
