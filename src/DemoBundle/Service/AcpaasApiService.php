@@ -13,26 +13,35 @@ class AcpaasApiService
     private $session;
     private $client;
     private $userService;
+    private $clientAuth;
     private $oauthPath;
     private $apiPath;
+    private $apiKey;
+    private $apiKeyType;
+    private $apiKeyName;
 
     public function __construct(array $config, Session $session, Client $client, UserService $userService)
     {
         $this->config = $config;
         $this->session = $session;
         $this->userService = $userService;
+        $this->clientAuth = $this->config['client_auth'];
         $this->client = $client;
         $this->client->setBaseUrl($this->config['base_url']);
         $this->oauthPath = $this->config['oauth_path'];
         $this->apiPath = $this->config['api_path'];
+        $this->apiKey = $this->config['api_key'];
+        $this->apiKeyType = $this->config['api_key_type'];
+        $this->apiKeyName = $this->config['api_key_name'];
     }
 
     private function get($url, $queryParams = array())
     {
 
         try {
+            $this->addAuthParams($queryParams);
             $request = $this->client->get($url . '?' . http_build_query($queryParams));
-            $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
+            $this->addAuthHeaders();
             $response = $request->send();
 
             return $response->json();
@@ -41,16 +50,15 @@ class AcpaasApiService
             throw new \Exception($ex->getResponse()->getBody());
         }
 
-
     }
 
     private function post($url, $queryParams = array(), $bodyParams = array())
     {
 
-
         try {
+            $this->addAuthParams($queryParams);
             $request = $this->client->post($url . '?' . http_build_query($queryParams), array(), $bodyParams);
-            $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
+            $this->addAuthHeaders();
             return $request->send()->json();
 
         } catch (RequestException $ex) {
@@ -63,8 +71,9 @@ class AcpaasApiService
     {
 
         try {
+            $this->addAuthParams($queryParams);
             $request = $this->client->put($url . '?' . http_build_query($queryParams), array(), $bodyParams);
-            $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
+            $this->addAuthHeaders();
             return $request->send()->json();
 
         } catch (RequestException $ex) {
@@ -77,14 +86,38 @@ class AcpaasApiService
     {
 
         try {
+            $this->addAuthParams($queryParams);
             $request = $this->client->delete($url . '?' . http_build_query($queryParams));
-            $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
+            $this->addAuthHeaders();
             return $request->send()->json();
 
         } catch (RequestException $ex) {
             throw new \Exception($ex->getResponse()->getBody());
         }
 
+    }
+
+    private function addAuthHeaders($request)
+    {
+        if ($this->clientAuth == 'oauth')
+        {
+            $request->addHeader('Authorization', 'Bearer ' . $this->getAccessToken());
+        }
+        else
+        {
+            if ($this->apiKeyType === 'header')
+            {
+                $request->addHeader($this->apiKeyName, $this->apiKey);
+            }
+        }
+    }
+
+    private function addAuthParams(&$queryParams)
+    {
+        if ($this->clientAuth == 'apikey' && $this->apiKeyType == 'param')
+        {
+            $queryParams[$this->apiKeyName] = $this->apiKey;
+        }
     }
 
     private function getAccessToken()
