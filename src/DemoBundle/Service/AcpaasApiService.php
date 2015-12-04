@@ -13,6 +13,8 @@ class AcpaasApiService
     private $session;
     private $client;
     private $userService;
+    private $oauthPath;
+    private $apiPath;
 
     public function __construct(array $config, Session $session, Client $client, UserService $userService)
     {
@@ -20,7 +22,9 @@ class AcpaasApiService
         $this->session = $session;
         $this->userService = $userService;
         $this->client = $client;
-        $this->client->setBaseUrl($this->config['client_url']);
+        $this->client->setBaseUrl($this->config['base_url']);
+        $this->oauthPath = $this->config['oauth_path'];
+        $this->apiPath = $this->config['api_path'];
     }
 
     private function get($url, $queryParams = array())
@@ -99,7 +103,7 @@ class AcpaasApiService
                 'grant_type' => 'client_credentials'
             );
 
-            $request = $this->client->get('/oauth/v2/token?' . http_build_query($params));
+            $request = $this->client->get($this->oauthPath . '/token?' . http_build_query($params));
             $result = $request->send()->json();
 
             $expires_in = $now->add(new \DateInterval('PT' . $result['expires_in'] . 'S'));
@@ -122,7 +126,7 @@ class AcpaasApiService
             'group' => 'general',
         );
 
-        $record = $this->post('/api/v1/entities/Record', $queryParams, $bodyParams);
+        $record = $this->post($this->apiPath . '/entities/Record', $queryParams, $bodyParams);
 
         $bodyParams = array(
             'resource' => 'group',
@@ -163,7 +167,7 @@ class AcpaasApiService
             'limit' => 99,
         );
 
-        return $this->get('/api/v1/entities', $queryParams)['results'];
+        return $this->get($this->apiPath . '/entities', $queryParams)['results'];
     }
 
     public function getEntity($id)
@@ -175,7 +179,7 @@ class AcpaasApiService
             'group' => 'general'
         );
 
-        return $this->get('/api/v1/entities/' . $id, $queryParams);
+        return $this->get($this->apiPath . '/entities/' . $id, $queryParams);
     }
 
     public function putEntity($id, $bodyParams)
@@ -187,12 +191,12 @@ class AcpaasApiService
             'group' => 'general',
         );
 
-        return $this->put('/api/v1/entities/' . $id, $queryParams, $bodyParams);
+        return $this->put($this->apiPath . '/entities/' . $id, $queryParams, $bodyParams);
     }
 
     public function postEntityAcl($id, $bodyParams)
     {
-        $this->post('/api/v1/entities/' . $id . '/acl', array(), $bodyParams);
+        $this->post($this->apiPath . '/entities/' . $id . '/acl', array(), $bodyParams);
     }
 
     public function deleteEntity($id)
@@ -204,7 +208,7 @@ class AcpaasApiService
             'group' => 'general',
         );
 
-        return $this->delete('/api/v1/entities/' . $id, $queryParams);
+        return $this->delete($this->apiPath . '/entities/' . $id, $queryParams);
     }
 
     public function getMetadataSchemas()
@@ -216,29 +220,29 @@ class AcpaasApiService
             'group' => 'general'
         );
 
-        return $this->get('/api/v1/metadataSchema', $queryParams)['results'];
+        return $this->get($this->apiPath . '/metadataSchema', $queryParams)['results'];
     }
 
     public function getEntityMetadata($id)
     {
-        return $this->get('/api/v1/entities/' . $id . '/metadata');
+        return $this->get($this->apiPath . '/entities/' . $id . '/metadata');
     }
 
     public function getTasks()
     {
         $queryParams['assignee'] = $this->userService->getUser();
-        return $this->get('/api/v1/activiti/runtime/tasks', $queryParams);
+        return $this->get($this->apiPath . '/activiti/runtime/tasks', $queryParams);
 
     }
 
     public function getTask($id)
     {
-        return $this->get('/api/v1/activiti/runtime/tasks/' . $id);
+        return $this->get($this->apiPath . '/activiti/runtime/tasks/' . $id);
     }
 
     public function putTask($id, $params)
     {
-        return $this->put('/api/v1/activiti/runtime/tasks/' . $id, array(), $params);
+        return $this->put($this->apiPath . '/activiti/runtime/tasks/' . $id, array(), $params);
     }
 
     public function postCompleteTask($id)
@@ -248,14 +252,12 @@ class AcpaasApiService
             'action' => 'complete'
         );
 
-        return $this->post('/api/v1/activiti/runtime/tasks/' . $id, array(), $params);
+        return $this->post($this->apiPath . '/activiti/runtime/tasks/' . $id, array(), $params);
     }
 
     public function getDiagram($id)
     {
 
-        return $this->get('/api/v1/activiti/runtime/process-instances/' . $id . '/diagram');
+        return $this->get($this->apiPath . '/activiti/runtime/process-instances/' . $id . '/diagram');
     }
-
-
 }

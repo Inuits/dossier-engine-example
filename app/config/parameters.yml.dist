@@ -18,6 +18,9 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    client_url: http://localhost:8000
-    client_secret: ZjdiYzJiZDlmY2I4YTRiODA3Y2M4MjEzYmE2NzRkMzE1NmUwYjZiYjhmNjIxMjQ3NDJlMmFkNTYwNjYxYmEwOQ
-    public_id: 5db4df53-86cb-11e5-a115-28d244df9d68_aqpk8l65v688wg0woo0gsko00ow0sw4cgg04k8ck8kc8s000c
+    client_secret:     ZjdiYzJiZDlmY2I4YTRiODA3Y2M4MjEzYmE2NzRkMzE1NmUwYjZiYjhmNjIxMjQ3NDJlMmFkNTYwNjYxYmEwOQ
+    public_id:         5db4df53-86cb-11e5-a115-28d244df9d68_aqpk8l65v688wg0woo0gsko00ow0sw4cgg04k8ck8kc8s000c
+
+    base_url:          http://localhost:8000
+    oauth_path:        /oauth/v2
+    api_path:          /api/v1
