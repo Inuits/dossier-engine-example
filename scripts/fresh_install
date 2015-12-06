@@ -1,8 +1,8 @@
 #!/bin/bash
+ENV=${1:-"prod"}
 
-php composer update --force
-php app/console cache:clear --env=prod
-php app/console doctrine:schema:create --env=prod
-php app/console assets:install --symlink web
-php app/console cache:clear
-php app/console assetic:dump
+composer install
+php app/console cache:clear --env=$ENV
+php app/console assets:install --env=$ENV --symlink web
+php app/console cache:clear --env=$ENV
+php app/console assetic:dump --env=$ENV
