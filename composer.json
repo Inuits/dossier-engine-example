@@ -1,6 +1,6 @@
 {
-    "name": "pieter/digipolis.acpaas.dossier.engine.demo",
-    "license": "proprietary",
+    "name": "Inuits/dossier-engine-example",
+    "license": "GPL",
     "type": "project",
     "autoload": {
         "psr-4": {
