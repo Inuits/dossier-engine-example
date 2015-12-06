@@ -1,4 +1,4 @@
-digipolis-acpaas-dossier-engine-demo
-====================================
+dossier-engine-example
+======================
 
-A Symfony project created on October 26, 2015, 12:48 pm.
+An example project in Symfony for the records managements system.
